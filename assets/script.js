@@ -1,32 +1,31 @@
-const today = moment()
-$("#currentDay").text(today.format('dddd MMM Do YYYY, h:mm:ss a'));
+
+$("#currentDay").text(moment().format('dddd MMM Do YYYY, h:mm:ss a'));
 
 
 
 function hourUpdater() {
-    var currentHour = moment().hours();
+    let currentHour = moment().hours();
 
     $(".time-block").each(function() {
-       let blockTime = parseInt($(this).attr("id").split("hour")[1]); 
+       let blockTime = parseInt($(this).attr("id").split("-")[1]); 
 
        if (blockTime < currentHour) {
-           $(this).removeClass("future");
-           $(this).removeClass("present");
            $(this).addClass("past");
        }    
        else if (blockTime === currentHour) {
            $(this).removeClass("past");
-           $(this).removeClass("future");
            $(this).addClass("present");
         }
         else {
-            $(this).removeClass("present");
             $(this).removeClass("past");
+            $(this).removeClass("present");
             $(this).addClass("future");
         }
-        console.log(blockTime);
     });
 }
+hourUpdater();
+
+let interval = setInterval(hourUpdater, 15000);
 
 $(".saveBtn").on("click", function() {
     let text = $(this).siblings(".text").val();
